@@ -60,14 +60,14 @@ export class ThreeViewComponent implements AfterViewInit {
   constructor() { }
 
   ngAfterViewInit(): void {
-    this.initThree();
+    this.initThree(this.width, this.height);
     this.initScene();
     this.drawScene();
   }
 
-  initThree() {
-    this.renderer = createRenderer(this.canvas, this.width, this.height);
-    this.camera   = createCamera(this.width, this.height);    
+  initThree(width: number, height: number) {
+    this.renderer = createRenderer(this.canvas, width, height);
+    this.camera   = createCamera(width, height);    
     this.scene    = createScene();
   }
 
