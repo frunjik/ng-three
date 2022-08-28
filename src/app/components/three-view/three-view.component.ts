@@ -15,6 +15,23 @@ function createLine(): THREE.Line {
   return line;
 }
 
+function createScene(): THREE.Scene {
+  return new THREE.Scene();
+}
+
+function createCamera(width: number, height: number): THREE.Camera {
+  const camera = new THREE.PerspectiveCamera( 45, width / height, 1, 500 );
+  camera.position.set( 0, 0, 100 );
+  camera.lookAt( 0, 0, 0 );
+  return camera;
+}
+
+function createRenderer(canvas: HTMLCanvasElement, width: number, height: number): THREE.WebGLRenderer {
+  const renderer = new THREE.WebGLRenderer({canvas});
+  renderer.setSize( width, height );
+  return renderer;
+}
+
 @Component({
   selector: 'app-three-view',
   templateUrl: './three-view.component.html',
@@ -48,27 +65,10 @@ export class ThreeViewComponent implements AfterViewInit {
     this.drawScene();
   }
 
-  createScene(): THREE.Scene {
-    return new THREE.Scene();
-  }
-  
-  createCamera(width: number, height: number): THREE.Camera {
-    const camera = new THREE.PerspectiveCamera( 45, width / height, 1, 500 );
-    camera.position.set( 0, 0, 100 );
-    camera.lookAt( 0, 0, 0 );
-    return camera;
-  }
-  
-  createRenderer(width: number, height: number): THREE.WebGLRenderer {
-    const renderer = new THREE.WebGLRenderer({canvas: this.canvas});
-    renderer.setSize( width, height );
-    return renderer;
-  }
-
   initThree() {
-    this.renderer = this.createRenderer(this.width, this.height);
-    this.camera   = this.createCamera(this.width, this.height);    
-    this.scene    = this.createScene();
+    this.renderer = createRenderer(this.canvas, this.width, this.height);
+    this.camera   = createCamera(this.width, this.height);    
+    this.scene    = createScene();
   }
 
   initScene() {
@@ -78,5 +78,4 @@ export class ThreeViewComponent implements AfterViewInit {
   drawScene() {
     this.renderer.render(this.scene, this.camera);
   }
-
 }
